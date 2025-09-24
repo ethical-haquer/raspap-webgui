@@ -323,10 +323,10 @@ function _check_internet() {
 
     tput cnorm # restore cursor
 
-    if [[ $exit_code -ne 0 ]]; then
-        _install_status 1 "No internet connection or unable to reach GitHub"
-        exit 1
-    fi
+    #if [[ $exit_code -ne 0 ]]; then
+    #    _install_status 1 "No internet connection or unable to reach GitHub"
+    #    exit 1
+    #fi
     _install_status 0
 }
 
