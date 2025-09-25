@@ -46,8 +46,9 @@ OPTIONS:
 -e, --provider <value>              Used with -y, --yes, sets the VPN provider install option
 -g, --tcp-bbr <value>               Used with -y, --yes, sets the TCP BBR congestion control algorithm option
 -r, --repo, --repository <name>     Overrides the default GitHub repo (RaspAP/raspap-webgui)
--s, --script-repo <name>            Overrides the default GitHub repo used for the scripts (RaspAP/raspap-webgui)
 -b, --branch <name>                 Overrides the default git branch (latest release)
+-s, --script-repo <name>            Overrides the default GitHub repo used for the scripts (RaspAP/raspap-webgui)
+-h, --script-branch <name>          Overrides the default git branch used for the scripts (latest release)
 -t, --token <accesstoken>           Specify a GitHub token to access a private repository
 -n, --name <username>               Specify a GitHub username to access a private repository
 -u, --upgrade                       Upgrades an existing installation to the latest release version
@@ -151,12 +152,16 @@ function _parse_params() {
             repo_common="$repo"
             shift
             ;;
+            -b|--branch)
+            branch="$2"
+            shift
+            ;;
             -s|--script-repo)
             script_repo="$2"
             shift
             ;;
-            -b|--branch)
-            branch="$2"
+            -h|--script-branch)
+            script_branch="$2"
             shift
             ;;
             -h|--help)
@@ -347,10 +352,10 @@ function _load_installer() {
     _get_release
 
     # assign default branch if not defined with -b, --branch option
-    if [ -z ${branch} ]; then
-        branch=$RASPAP_LATEST
+    if [ -z ${script_branch} ]; then
+        script_branch=$RASPAP_LATEST
     fi
-    UPDATE_URL="https://raw.githubusercontent.com/$script_repo/$branch/"
+    UPDATE_URL="https://raw.githubusercontent.com/$script_repo/$script_branch/"
 
     if [ "${install_cert:-}" = 1 ]; then
         source="mkcert"
