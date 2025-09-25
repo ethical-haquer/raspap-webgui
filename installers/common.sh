@@ -612,6 +612,7 @@ function _download_latest_files() {
         fi
     fi
     if [ -z "$insiders_source_url" ]; then
+        echo "Running: git clone --branch $branch --depth 1 --recurse-submodules -c advice.detachedHead=false $git_source_url $source_dir"
         git clone --branch $branch --depth 1 --recurse-submodules -c advice.detachedHead=false $git_source_url $source_dir || clone=false
         git -C $source_dir submodule update --remote plugins || clone=false
     fi
