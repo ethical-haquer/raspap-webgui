@@ -46,6 +46,7 @@ OPTIONS:
 -e, --provider <value>              Used with -y, --yes, sets the VPN provider install option
 -g, --tcp-bbr <value>               Used with -y, --yes, sets the TCP BBR congestion control algorithm option
 -r, --repo, --repository <name>     Overrides the default GitHub repo (RaspAP/raspap-webgui)
+-s, --script-repo <name>            Overrides the default GitHub repo used for the scripts (RaspAP/raspap-webgui)
 -b, --branch <name>                 Overrides the default git branch (latest release)
 -t, --token <accesstoken>           Specify a GitHub token to access a private repository
 -n, --name <username>               Specify a GitHub username to access a private repository
@@ -85,6 +86,7 @@ function _main() {
     # set defaults
     repo="RaspAP/raspap-webgui" # override with -r, --repo option
     repo_common="$repo"
+    script_repo="$repo"
 
     _parse_params "$@"
     _setup_colors
@@ -147,6 +149,10 @@ function _parse_params() {
             -r|--repo|--repository)
             repo="$2"
             repo_common="$repo"
+            shift
+            ;;
+            -s|--script-repo)
+            script_repo="$2"
             shift
             ;;
             -b|--branch)
@@ -344,7 +350,7 @@ function _load_installer() {
     if [ -z ${branch} ]; then
         branch=$RASPAP_LATEST
     fi
-    UPDATE_URL="https://raw.githubusercontent.com/$repo_common/$branch/"
+    UPDATE_URL="https://raw.githubusercontent.com/$script_repo/$branch/"
 
     if [ "${install_cert:-}" = 1 ]; then
         source="mkcert"
