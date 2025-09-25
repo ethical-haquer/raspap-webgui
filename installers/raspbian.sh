@@ -352,6 +352,10 @@ function _load_installer() {
     _get_release
 
     # assign default branch if not defined with -b, --branch option
+    if [ -z ${branch} ]; then
+        branch=$RASPAP_LATEST
+    fi
+    # assign default script_branch if not defined with -h, --script-branch option
     if [ -z ${script_branch} ]; then
         script_branch=$RASPAP_LATEST
     fi
