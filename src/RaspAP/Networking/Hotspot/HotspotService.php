@@ -279,7 +279,7 @@ class HotspotService
      */
     public function getRegDomain(): string
     {
-        $domain = shell_exec("iw reg get | grep -o 'country [A-Z]\{2\}' | awk 'NR==1{print $2}'");
+        $domain = shell_exec("/sbin/iw reg get | grep -o 'country [A-Z]\{2\}' | awk 'NR==1{print $2}'");
         return $domain;
     }
 
